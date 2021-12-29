@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bd">
+<insert id="insert" parameterType="bvo">
+	insert into board values(board_seq.nextval, #{bwriter}, #{btitle}, #{bcontent}, #{bplace}, #{bemail}, 1 , #{bmax}, 1 , #{bdate}, sysdate)
+</insert>
+<select id="list" resultType="bvo">
+	select * from (select rownum r_num, a.* from(
+	select bno, btitle, bwriter, bhit, bdate, wdate, brec, bmax from board order by 1 desc
+	) a) where r_num between #{start} and #{end}
+</select>
+<select id="totalCnt1" resultType="int">
+	select count (*) from (select rownum r_num, a.* from(
+	select bno, btitle, bwriter, bhit, bdate, wdate, brec, bmax from board order by 1 desc
+	) a)
+</select>
+<update id="hit" parameterType="int">
+	update board set bhit = bhit+1 where bno = #{bno}
+</update>
+<select id="detail" parameterType="int" resultType="bvo"> 
+	select bno,bwriter,btitle,bcontent,bplace,bemail,brec,bmax,bdate,wdate,bhit from board where bno = #{bno}
+</select>
+<select id="sid" parameterType="int" resultType="suvo">
+	select * from board_sub where sno = #{sno}
+</select>
+<select id="mview" parameterType="int" resultType="bvo">
+	select * from board where bno = #{bno}
+</select>
+<update id="update" parameterType="bvo">
+	update board set btitle=#{btitle}, bcontent=#{bcontent} , bmax=#{bmax} , bdate=#{bdate} , bplace=#{bplace} , bemail=#{bemail} where bno= #{bno}
+</update>
+<delete id="del" parameterType="int">
+	delete board where bno = #{bno}
+</delete>
+<update id="app" parameterType="int">
+	update board set brec = brec+1 where bno = #{bno}
+</update>
+<update id="can" parameterType="int">
+	update board set brec = brec-1 where bno = #{bno}
+</update>
+<delete id="cdel" parameterType="suvo">
+	delete board_sub where sno=#{sno} and srec = #{srec}
+</delete>
+<select id="searchlist" parameterType="pavo" resultType="bvo">
+		select * from (select rownum r_num, a.* from(
+		select * from board
+		<if test="ex_select !=null">
+			<where>
+				<choose>
+					<when test="ex_select == '통합검색'">bwriter||btitle||bcontent like '%'||#{searchValue}||'%'</when>
+					<when test="ex_select == '제목'">btitle like '%'||#{searchValue}||'%'</when>
+					<when test="ex_select == '아이디'">bwriter like '%'||#{searchValue}||'%'</when>
+				</choose>
+			</where>
+		</if>
+        order by 1 desc
+		) a) where r_num between #{start} and #{end}
+</select>
+<select id="totalCnt" resultType="int">
+		select count (*) from (select rownum r_num, a.* from(
+		select * from board
+		<if test="ex_select !=null">
+			<where>
+				<choose>
+					<when test="ex_select == '통합검색'">bwriter||btitle||bcontent like '%'||#{searchValue}||'%'</when>
+					<when test="ex_select == '제목'">btitle like '%'||#{searchValue}||'%'</when>
+					<when test="ex_select == '아이디'">bwriter like '%'||#{searchValue}||'%'</when>
+				</choose>
+			</where>
+		</if>
+		order by 1 desc
+		) a)
+</select>
+<insert id="sinsert" parameterType="suvo">
+	insert into board_sub values(board_sub_seq.nextVal, #{sno}, #{srec})
+</insert>
+<select id="plist" resultType="bvo">
+	select bno,bplace from board order by bno desc
+</select>
+</mapper>

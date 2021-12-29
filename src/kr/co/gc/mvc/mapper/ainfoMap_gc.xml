@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ainfo">
+
+	<select id="listinfo" resultType="avo" parameterType="String">							<!-- 플로깅 활동 결과 list 웹페이지에선 리스트 전체 가져옴  -->	
+ 		select pldate,pldistance, pltime, pltrashpick, plstatus from ainfo where pluserId=#{pluserId} order by 1 
+ 	</select>
+ 	
+ 	<select id="todayVolunteer" resultType="avo" parameterType="String">
+ 		select pluserid, pltrashpick from ainfo where pldate=#{date} and pltrashpick =(select max(pltrashpick) from ainfo where pldate=#{date})
+ 	</select>
+ 	
+ 	<select id="todayDistance" resultType="avo" parameterType="String">
+ 		select pluserid, pldistance from ainfo where pldate=#{date} and pldistance =(select max(pldistance) from ainfo where pldate=#{date})
+ 	</select>
+ 	
+	<select id="maindistance" resultType="Integer"><!-- 메인에 해당월 유저들의 걸음걸이 총합   -->
+		 select sum(pldistance) from ainfo  where pldate like '%2021-12%'
+	</select>
+	
+	<!-- 플로깅 걸음수  -->
+	<select id="ploggingDistance" resultType="Integer" parameterType="String">
+		select pldistance from ainfo where pldate=#{date} and plstatus='y'
+	</select>
+	
+	<!-- 운동만  -->
+	<select id="exerciseDistance" resultType="Integer" parameterType="String">
+		select pldistance from ainfo where pldate=#{date} and plstatus='n'
+	</select>
+	
+	<!-- 주간 쓰레기량  -->
+	<select id="totalTrash" resultType="Integer" parameterType="String">
+		select pltrashpick from ainfo where pldate=#{date}
+	</select>
+	
+	
+	
+</mapper>

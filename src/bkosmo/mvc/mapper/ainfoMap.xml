@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ainfo">
+
+	<insert id="addainfo" parameterType="avo">
+		insert into ainfo
+		values(ainfo_seq.nextVal,#{pluserId},#{pldate},#{pldistance},#{pltime},#{pltrashpick},#{plstatus})
+	</insert>
+	
+	<select id="listinfo" resultType="avo">				<!-- 플로깅 활동 결과 list -->	
+ 		SELECT * FROM ainfo WHERE plno = (SELECT max(plno) FROM ainfo)          <!-- 리스트 전체를 가져오는것이 아니라 플로깅 활동을 한 그 즉시 데이터만 보여주는 구문 -->
+ 	</select>
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="kr.co.gc.mvc.dto.MemberVO" alias="mvo" />
+		<typeAlias type="kr.co.gc.mvc.dto.MyLoginLoggerVO" alias="lvo" />
+		<typeAlias type="kr.co.gc.mvc.dto.PloggingVO" alias="pvo" />
+		<typeAlias type="kr.co.gc.mvc.dto.MyEmblemVO" alias="evo" />
+		<typeAlias type="kr.co.gc.mvc.dto.EmblemUpdateVO" alias="uvo" />
+		<typeAlias type="kr.co.gc.mvc.dto.SumVO" alias="svo" />
+		<typeAlias type="kr.co.gc.mvc.dto.GalleryDto" alias="Gdto" />
+		<typeAlias type="kr.co.gc.mvc.dto.BoardVO" alias="bvo" />
+		<typeAlias type="kr.co.gc.mvc.dto.BoardSubVO" alias="suvo" />
+		<typeAlias type="kr.co.gc.mvc.dto.PageVO" alias="pavo" />
+		<typeAlias type="kr.co.gc.mvc.dto.AinfoVO_gc" alias="avo" />
+	</typeAliases>
+</configuration>

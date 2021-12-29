@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="lev">
+ 
+ <select id="emblem" resultType="evo" parameterType="String">
+ 	select soloemb, ploggingemb, teamemb from emblem where eid=#{id}
+ </select>
+ 
+ <select id="memberInfo" resultType="mvo" parameterType="String">
+ 	select * from member where mid=#{id}
+ </select>
+ 
+ <update id="soloEmbUp" parameterType="uvo">
+ 	update emblem set soloemb = #{se2} where eid=#{id}
+ </update>
+ 
+ <update id="ploggingEmbUp" parameterType="String">
+ 	update emblem set ploggingemb = #{pe2} where eid=#{id}
+ </update>
+ 
+ <select id="sum" resultType="svo" parameterType="String">
+ 	 select distinct (select sum(pldistance) from ainfo where pluserid=#{id}) as sumgeori, 
+ 	(select count(*) from ainfo where pluserid=#{id} and plstatus ='y') as sumpstatus
+ 	from ainfo
+ </select>
+ 
+ <update id="upExp" parameterType="mvo">
+ 	update member set mexp = mexp + #{mexp} where mid=#{mid}
+ </update>
+  
+ <!-- 
+ <update id="teamembUp">
+	update emblem set teamemb = 'y' 
+	where eid in (select distinct pid from plogging 
+	where pdate between to_date('2021-12-05','yyyy-MM-dd') 
+	and to_date('2021-12-11','yyyy-MM-dd'))
+ </update>
+  -->
+  
+ </mapper>

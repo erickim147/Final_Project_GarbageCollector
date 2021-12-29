@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mem">
+	<insert id="join" parameterType="mvo">
+		insert into member values(
+		member_seq.nextVal, #{mid}, #{mpwd}, #{mname}, #{mbirth},
+		#{msex}, #{maddr}, #{mphone}, #{memail}, #{mphoto}, 0, sysdate, 0)
+	</insert>
+	
+	<select id="idchk" parameterType="String" resultType="int">
+		select count(*) cnt from member where mid=#{mid}
+	</select>
+	
+	<select id="pwdChk" parameterType="String" resultType="int">
+		select count(*) cnt from member where mpwd=#{mpwd}
+	</select>
+	
+	<select id="detail" parameterType="String" resultType="mvo">
+		select * from member where mid=#{mid}
+	</select>
+	
+	<update id="modify" parameterType="mvo">
+		update member set mpwd = #{mpwd}, mname = #{mname}, mbirth = #{mbirth},
+		msex = #{msex}, maddr = #{maddr}, mphoto = #{mphoto}
+		where mid = #{mid}
+	</update>
+	
+	<update id="withdrawal" parameterType="String">
+		update member set mstatus=1 where mid = #{mid}
+	</update>
+	
+</mapper>

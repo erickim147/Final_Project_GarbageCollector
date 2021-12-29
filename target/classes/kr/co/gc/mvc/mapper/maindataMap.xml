@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="main">
+ 	<select id="teamTotal" resultType="int">
+		select sum(pldistance) from ainfo 
+		where pldate between '2021-12-15'	and '2021-12-31'
+ 	</select>
+ 	 
+ 	<select id="checkTeam" resultType="int" parameterType="String">
+ 		select count(*) from (select distinct pluserid from ainfo 
+ 		where pldate between '2021-12-15' and '2021-12-31') where pluserid = #{id}
+ 	</select>
+ 	
+ 	<update id="upTeamEmb" parameterType="String">
+ 		 update emblem set teamemb = 'y' where eid = #{id}
+ 	</update>
+ 	
+ </mapper>
